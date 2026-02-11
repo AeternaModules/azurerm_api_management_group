@@ -19,7 +19,7 @@ EOT
     resource_group_name = string
     description         = optional(string)
     external_id         = optional(string)
-    type                = optional(string, "custom")
+    type                = optional(string) # Default: "custom"
   }))
 }
 
