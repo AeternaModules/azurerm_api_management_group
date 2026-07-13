@@ -19,16 +19,8 @@ EOT
     resource_group_name = string
     description         = optional(string)
     external_id         = optional(string)
-    type                = optional(string) # Default: "custom"
+    type                = optional(string)
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_groups : (
-        length(v.display_name) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_api_management_group's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -51,6 +43,9 @@ EOT
   #   source:    [from resourcegroups.ValidateName] !matched
   # path: api_management_name
   #   source:    [from validate.ApiManagementServiceName] !matched
+  # path: display_name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: type
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
 }
